@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wish🪄</title>
+    <link rel="stylesheet" href="style.css">
+   
+</head>
+<body background="bgb.jpg">
+    <div id="spotlight"></div>
+
+<script>
+  const svg_heart = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='546.133' height='448' viewBox='0 0 512 420'%3E%3Cpath fill='red' d='M257 112c.28-12.93 5.99-29.47 11.75-41C300.62 7.27 376.04-17.2 440 12.31c33.67 15.54 60.35 48.63 68.77 84.69 4.11 17.63 3.43 29.19 3.23 47-.23 19.09-8.22 50.95-14.95 69C468.4 289.85 404.82 349.11 333 386.26L278 412c-4.6 1.84-17.87 7.79-22 7.79-4.18 0-20.12-7.02-25-8.99-21.1-8.51-41.08-18.56-61-29.5C95.65 340.48 30.02 274.83 7.88 191 .49 162.99-.33 146.56 0 118c.17-14.32 6.36-34.21 12.75-47C19.82 56.86 29.21 43.78 41 33.17c49.22-44.3 123.25-44.16 173-.88 10.52 9.15 20.7 22.36 27.22 34.71 6.75 12.8 13.46 30.42 13.78 45h2Z'/%3E%3C/svg%3E";
+  "use strict";
+var spotlight = document.querySelector("#spotlight");
+function moveSpotlight(e) {
+  spotlight.style.setProperty("--x", e.pageX + "px");
+  spotlight.style.setProperty("--y", e.pageY + "px");
+}
+window.addEventListener("pointermove", moveSpotlight);
+window.addEventListener("pointerdown", moveSpotlight);
+
+!(function () {
+  function t() {
+    !(function () {
+      var t, v, S;
+      (e = window.innerWidth),
+        (n = window.innerHeight),
+        (s = e / 2),
+        (d = n / 2),
+        (i = c.create()),
+        (r = i.world),
+        (o = l.create({
+          element: document.body,
+          engine: i,
+          options: {
+            width: e,
+            height: n,
+            wireframes: !1,
+            background: "transparent",
+            pixelRatio: window.devicePixelRatio
+          }
+        })),
+        (a = u.create()),
+        u.run(a, i),
+        (i.gravity.scale = 0),
+        (i.gravity.x = 0),
+        (i.gravity.y = 0);
+      t = f.circle(s, d, 0, {
+        render: {
+          fillStyle: "rgb(240,240,240)",
+          strokeStyle: "rgb(240,240,240)",
+          lineWidth: 0
+        },
+        isStatic: !0,
+        plugin: {
+          attractors: [
+            function (t, e) {
+              return {
+                x: 11e-7 * (t.position.x - e.position.x),
+                y: 11e-7 * (t.position.y - e.position.y)
+              };
+            }
+          ]
+        }
+      });
+      w.add(r, t),
+        "undefined" != typeof fetch
+          ? ((v = function (t, e) {
+              return Array.prototype.slice.call(t.querySelectorAll(e));
+            }),
+            (function (t) {
+              return fetch(t)
+                .then(function (t) {
+                  return t.text();
+                })
+                .then(function (t) {
+                  return new window.DOMParser().parseFromString(
+                    t,
+                    "image/svg+xml"
+                  );
+                });
+            })(svg_heart).then(function (t) {
+              var i = v(t, "path").map(function (t) {
+                return y.pathToVertices(t, 30);
+              });
+              let o = p.stack(0, 0, 5, 5, 0, 0, function (t, r) {
+                (t = h.random(0, e)), (r = h.random(0, n));
+                let o = h.random(0.03, 0.1);
+                x.push(x.shift());
+                let a = x[0],
+                  s = svg_heart.replace("red", a),
+                  d = f.fromVertices(
+                    t,
+                    r,
+                    i,
+                    {
+                      friction: 0.1,
+                      frictionAir: h.random(0.1, 1),
+                      mass: h.random(1.2, 3) / o / 10,
+                      angle: Math.round(360 * Math.random()),
+                      render: {
+                        sprite: {
+                          texture: s,
+                          xScale: 0.8 * o,
+                          yScale: 0.8 * o
+                        }
+                      }
+                    },
+                    !0
+                  );
+                return g.scale(d, o, o), d;
+              });
+              w.add(r, o);
+            }))
+          : h.warn("Fetch is not available. Could not load SVG.");
+      S = m.create(o.canvas);
+      M.on(i, "afterUpdate", function () {
+        S.position.x &&
+          g.translate(t, {
+            x: 0.12 * (S.position.x - t.position.x),
+            y: 0.12 * (S.position.y - t.position.y)
+          });
+      }),
+        l.run(o);
+    })();
+  }
+
+  (window.onload = () => {
+    t();
+  }),
+    (window.onresize = () => {
+      (e = window.innerWidth),
+        (n = window.innerHeight),
+        (o.bounds.max.x = e),
+        (o.bounds.max.y = n),
+        (o.options.width = e),
+        (o.options.height = n),
+        (o.canvas.width = e),
+        (o.canvas.height = n),
+        Matter.Render.setPixelRatio(o, window.devicePixelRatio);
+    });
+})();
+
+</script>
+</body>
+</html>
